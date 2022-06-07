@@ -162,7 +162,7 @@ namespace API.Data
                     Description =
                         "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
                     Price = 2500,
-                    PictureUrl = "/images/products/SkateGirl2.jpg",
+                    PictureUrl = "/images/products/SkateGirl2.png",
                     Brand = "Girl",
                     Type = "Skateboard",
                     QuantityInStock = 100
