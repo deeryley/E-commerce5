@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Card,
   CardActions,
@@ -48,7 +47,7 @@ export default function ProductCard({ product }: Props) {
       </CardContent>
       <CardActions>
         <Button size="small">Add To Cart</Button>
-        <Button size="small">View</Button>
+        <Button size="small">View</Button>s
       </CardActions>
     </Card>
   );
