@@ -1,5 +1,73 @@
-import { Typography } from "@mui/material";
+import {
+  Divider,
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import { grey } from "@mui/material/colors";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Product } from "../../app/models/product";
 
 export default function ProductDetails() {
-  return <Typography variant="h2">Product Details</Typography>;
+  const { id } = useParams<{ id: string }>();
+  const [product, setProducts] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/api/Products/${id}`)
+      .then((response) => setProducts(response.data))
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) return <h3> Loading... </h3>;
+  if (!product) return <h3> Could not find product </h3>;
+
+  return (
+    <Grid container spacing={6}>
+      <Grid item xs={6} sx={{ mt: 5 }}>
+        <img
+          src={product.pictureUrl}
+          alt={product.name}
+          style={{ width: "100%" }}
+        />
+      </Grid>
+      <Grid item xs={6} sx={{ mt: 5 }}>
+        <Typography variant="h3"> {product.name} </Typography>
+        <Divider sx={{ mb: 4, border: 1, color: "grey.300" }} />
+        <Typography variant="h4" color="primary">
+          {product.price.toFixed(2)} BGN
+        </Typography>
+        <TableContainer>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell>Description</TableCell>
+                <TableCell>{product.description}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Type</TableCell>
+                <TableCell>{product.type}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> Brand </TableCell>
+                <TableCell>{product.brand}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> Quantity in stock </TableCell>
+                <TableCell>{product.quantityInStock}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Grid>
+    </Grid>
+  );
 }

@@ -57,6 +57,7 @@ export default function Header() {
             </ListItem>
           ))}
         </List>
+
         <Box display="flex" alignItems="center">
           <IconButton>
             <Badge badgeContent={1} color="secondary">
