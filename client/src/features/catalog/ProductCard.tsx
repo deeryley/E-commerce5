@@ -7,7 +7,9 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import agent from "../../app/api/agent";
 import { Product } from "../../app/models/product";
 
 interface Props {
@@ -15,6 +17,9 @@ interface Props {
 }
 
 export default function ProductCard({ product }: Props) {
+  function AddItemToCart(productId: number) {
+    agent.Cart.addItem(productId);
+  }
   return (
     <Card>
       <CardHeader
@@ -47,7 +52,9 @@ export default function ProductCard({ product }: Props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Add To Cart</Button>
+        <Button size="small" onClick={() => AddItemToCart(product.id)}>
+          Add To Cart
+        </Button>
         <Button component={Link} to={`/catalog/${product.id}`} size="small">
           View
         </Button>

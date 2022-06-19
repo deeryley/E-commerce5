@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 
 axios.defaults.baseURL = 'http://localhost:5000/api/';
+axios.defaults.withCredentials= true;
+
 
 const Body = (response: AxiosResponse) => response.data;
 
@@ -10,12 +12,18 @@ const requests = {
     put:(url: string, body:{}) => axios.put(url, body).then(Body),
     delete:(url: string) => axios.delete(url).then(Body)
 }
-
+//shows catalog on page
 const Catalog = {
     list: () => requests.get('products'),
     details: (id: number) => requests.get(`products/${id}`)
     }
 
+    //adding and removing items from shopping cart
+    const Cart = {
+    get: () => requests.get('cart'),
+    addItem: (productId: number, quantity = 1) => requests.post(`cart?productId=${productId}&quantity=${quantity}`, {}),
+    removeItem: (productId: number, quantity = 1) => requests.delete(`cart?productId=${productId}&quantity=${quantity}`)
+}
     
 
     const TestErrors = {
@@ -27,6 +35,6 @@ const Catalog = {
     }
 
     const agent = {
-        Catalog, TestErrors
+        Catalog, TestErrors, Cart 
     }
     export default agent;
