@@ -9,7 +9,8 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { useStoreContext } from "../context/StoreContext";
 
 const LinksMid = [
   { title: "catalog", path: "/catalog" },
@@ -35,6 +36,11 @@ const NavbarStyle = {
 };
 
 export default function Header() {
+  const { cart } = useStoreContext();
+
+  // will execute callback func. and update number of items in cart in icon
+  const itemsInCart = cart?.items.reduce((sum, item) => sum + item.quantity, 0);
+
   return (
     <AppBar position="sticky" sx={{}}>
       <Toolbar
@@ -59,8 +65,8 @@ export default function Header() {
         </List>
 
         <Box display="flex" alignItems="center">
-          <IconButton>
-            <Badge badgeContent={1} color="secondary">
+          <IconButton component={Link} to="/cart">
+            <Badge badgeContent={itemsInCart} color="secondary">
               <ShoppingCart />
             </Badge>
           </IconButton>

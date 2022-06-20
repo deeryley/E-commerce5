@@ -10,15 +10,19 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import agent from "../../app/api/agent";
+import { useStoreContext } from "../../app/context/StoreContext";
 import { Product } from "../../app/models/product";
+import { FormatBGN } from "../../app/Utilities/Utilities";
 
 interface Props {
   product: Product;
 }
 
 export default function ProductCard({ product }: Props) {
+  const { setCart } = useStoreContext();
+
   function AddItemToCart(productId: number) {
-    agent.Cart.addItem(productId);
+    agent.Cart.addItem(productId).then((cart) => setCart(cart));
   }
   return (
     <Card>
@@ -45,7 +49,7 @@ export default function ProductCard({ product }: Props) {
 
       <CardContent>
         <Typography gutterBottom variant="h5">
-          {product.price.toFixed(2)} BGN
+          {FormatBGN(product.price)}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {product.brand} / {product.type}
