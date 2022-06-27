@@ -41,7 +41,7 @@ export default function ProductCard({ product }: Props) {
       <CardMedia
         sx={{ objectFit: "contain" }}
         component="img"
-        height="300"
+        height="200"
         image={product.pictureUrl}
         alt={product.name}
         title={product.name}

@@ -1,16 +1,39 @@
 ﻿using API.Entities;
 
+using Microsoft.AspNetCore.Identity;
+
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace API.Data
 {
     public static class SampleData
     {
-        public static void Initialize(Contexts context)
+        public static async Task Initialize( Contexts context, UserManager<User> userManager )
         {
+            if ( !userManager.Users.Any() )
+            {
+                var user = new User
+                {
+                    UserName = "vasilena",
+                    Email = "vasilena@test.com"
+                };
 
-            if (context.Products.Any()) return;
+                await userManager.CreateAsync( user, "Pa$$w0rd" );
+                await userManager.AddToRoleAsync( user, "Member" );
+
+                var admin = new User
+                {
+                    UserName = "admin",
+                    Email = "admin@test.com"
+                };
+
+                await userManager.CreateAsync( admin, "Pa$$w0rd" );
+                await userManager.AddToRolesAsync( admin, new[] { "Member", "Admin" } );
+            }
+
+            if ( context.Products.Any() ) return;
 
             var products = new List<Product>
             {
@@ -212,9 +235,9 @@ namespace API.Data
                 },
             };
 
-            foreach (var product in products)
+            foreach ( var product in products )
             {
-                context.Products.Add(product);
+                context.Products.Add( product );
             }
 
             context.SaveChanges();

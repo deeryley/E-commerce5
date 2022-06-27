@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 import { useStoreContext } from "../context/StoreContext";
+import { useAppSelector } from "../store/ConfigureStore";
+import MenuLoggedIn from "./MenuLoggedIn";
 
 const LinksMid = [
   { title: "catalog", path: "/catalog" },
@@ -37,7 +39,7 @@ const NavbarStyle = {
 
 export default function Header() {
   const { cart } = useStoreContext();
-
+  const { user } = useAppSelector((state) => state.account);
   // will execute callback func. and update number of items in cart in icon
   const itemsInCart = cart?.items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -70,18 +72,22 @@ export default function Header() {
               <ShoppingCart />
             </Badge>
           </IconButton>
-          <List sx={{ display: "flex" }}>
-            {LinksRight.map(({ title, path }) => (
-              <ListItem
-                component={NavLink}
-                to={path}
-                key={path}
-                sx={NavbarStyle}
-              >
-                {title.toUpperCase()}
-              </ListItem>
-            ))}
-          </List>
+          {user ? (
+            <MenuLoggedIn />
+          ) : (
+            <List sx={{ display: "flex" }}>
+              {LinksRight.map(({ title, path }) => (
+                <ListItem
+                  component={NavLink}
+                  to={path}
+                  key={path}
+                  sx={NavbarStyle}
+                >
+                  {title.toUpperCase()}
+                </ListItem>
+              ))}
+            </List>
+          )}
         </Box>
       </Toolbar>
     </AppBar>

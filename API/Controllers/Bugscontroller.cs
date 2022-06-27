@@ -8,6 +8,7 @@ namespace API.Controllers
     public class Bugscontroller : ApiController
     {
 
+       {
         [HttpGet("not-found")]
         public ActionResult GetNotFound()
         {
@@ -40,4 +41,5 @@ namespace API.Controllers
             throw new Exception("This is a server error");
         }
     }
+}
 }
